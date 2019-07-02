@@ -1,0 +1,105 @@
+                      <div [nbSpinner]="registerload" nbSpinnerSize="xxlarge" nbSpinnerMessage="">
+                      <form  #form="ngForm" aria-labelledby="title">
+                      <h2 class="register text-center">用户注册</h2 >
+                      <div class="form-group">
+                        <label for="exampleInputEmail1" class="username">用户名</label>
+                        <input type="email"
+                         [(ngModel)]="user.username" name="name" 
+                          required minlength="4"
+                          #name="ngModel" 
+                          class="form-control username" id="name" 
+                          placeholder="用户名">
+                          <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                            class="alert alert-danger">
+
+                          <div *ngIf="name.errors.required">
+                              名字不能为空
+                          </div>
+                          <div *ngIf="name.errors.minlength">
+                              长度需要大于4
+                          </div>
+                           <!-- <div *ngIf="telephone_massage">
+                                {{telephone_massage}}
+                           </div> -->
+                        </div>
+                        <div *ngIf="username_massage&&user.username!=''">
+                                {{telephone_massage}}
+                           </div>
+
+                      </div>
+                        <div class="form-group">
+                        <label for="exampleInputEmail1" class="username">电话</label>
+                        <div class="d-flex" >
+                          <!-- <input type="tel" name="tel" pattern="^1(3|4|5|7|8)\d{9}$"  class="form-control telephone" id="phone" placeholder="电话*"> -->
+                        <input type="tel" [(ngModel)]="user.mobile" pattern="^1(3|4|5|7|8)\d{9}$" name="telephone" #telephone="ngModel" 
+                        required 
+                        class="form-control telephone mr-4" id="r_exampleInputEmail1" aria-describedby="emailHelp"
+                          placeholder="电话">
+                          <div [nbSpinner]="loadingMediumGroup" nbSpinnerSize="xsmall" nbSpinnerMessage="">
+                          <input type="button" 
+                           [disabled]="telephone.errors?.pattern || !telephone.value"
+                          *ngIf="user.telephone!=''" (click)="smsCode($event)"  
+                          class="btn d-innter btn-primary" value="{{sms_code_massage}}">
+                          </div>
+                          </div>
+                                 <div *ngIf="telephone.invalid && (telephone.dirty || telephone.touched)"
+                            class="alert alert-danger">
+
+                          <div *ngIf="telephone.errors.required">
+                            电话不能为空
+                          </div>
+                          <div *ngIf="telephone.errors.minlength">
+                            Name must be at least 4 characters long.
+                          </div>
+                          <div *ngIf="telephone.errors?.pattern">
+                            请输入正确的电话
+                          </div>
+                           <!-- <div *ngIf="{{username_massage}}">
+                              {{username_massage}}
+                          </div> -->
+
+                        </div> 
+                         <div [nbSpinner]="true" *ngIf="telephone_massage&&user.mobile!=''">
+                              {{telephone_massage}}
+                          </div> 
+                      </div>
+                      <div class="form-group d-flex">
+                        <label class="w-25 mt-3  hi verification_code" for="exampleInputPassword3">验证码</label>
+                        <input [(ngModel)]="user.sms_code" #sms_code='ngModel'  name="sms_code" required="register"   type="text" 
+                        class="form-control w-25 mr-3 verification_code" id="sms_code"
+                          placeholder="验证码">
+                                  <div *ngIf="sms_code.invalid && (sms_code.dirty || sms_code.touched)"
+                            class="alert alert-danger">
+                           
+                          <div *ngIf="sms_code.errors.required">
+                            验证码不能为空
+                          </div>
+                          <div *ngIf="sms_code.errors?.pattern">
+                            请输入正确的电话
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1" class="passwd">密码</label>
+                        <input [(ngModel)]="user.password" required="register" #password="ngModel" name="password"  type="password" class="form-control passwd" id="r_exampleInputPassword1" placeholder="密码">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword2" class="confirm_password">确认密码</label>
+                        <input type="password" #rePass="ngModel" required="register" [(ngModel)]="user.password2" name="password2" class="form-control confirm_password" id="exampleInputPassword2" placeholder="确认密码">
+                        <p class="error-message" *ngIf="password.value != rePass.value && !rePass.errors?.required">
+                          Password does not match the confirm password.
+                        </p>
+                      </div>
+                      <input
+                      nbButton
+                      fullWidth
+                      status="success"
+                      [disabled]="submitted || !form.valid || password.value != rePass.value"
+                      [class.btn-pulse]="submitted"
+                      (click)="register()"
+                      type="submit" class="btn btn-primary mt-2 register">
+                    </form>
+                    <section class="another-action" aria-label="Register">
+                      已有账号? <a class="text-link" routerLink="../login">登入</a>
+                    </section>
+</div>
